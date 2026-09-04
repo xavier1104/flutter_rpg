@@ -4,6 +4,7 @@ import 'monster.dart';
 import 'dart:math';
 import 'normalMonster.dart';
 import 'boss.dart';
+import 'map_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const GameScreen(),
+      home: const MapScreen(),
     );
   }
 }
@@ -88,6 +89,27 @@ class _GameScreenState extends State<GameScreen>{
       selectedAction = null;
       hint = "";
     });
+
+    checkResult();
+  }
+
+  void checkResult(){
+    bool result = true;
+    if (player.hp <= 0){
+      Navigator.pop(context, false);
+    }
+    else{
+      for (Monster monster in monsters) {
+        if (monster.hp > 0){
+          result = false;
+          break;
+        }
+      }
+
+      if (result){
+        Navigator.pop(context, true);
+      }
+    }
   }
 
   void selectAttack(){
